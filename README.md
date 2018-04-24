@@ -1,0 +1,1 @@
+This is the FCC Nightlife Coordination app
