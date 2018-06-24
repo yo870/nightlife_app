@@ -1,0 +1,31 @@
+{
+  "name": "nightlife-app",
+  "version": "1.0.0",
+  "description": "A nightlife coordination app from FCC",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yo870/nightlife_app.git"
+  },
+  "author": "Yo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yo870/nightlife_app/issues"
+  },
+  "homepage": "https://github.com/yo870/nightlife_app#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.9",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.0.16",
+    "passport": "^0.4.0",
+    "passport-twitter": "^1.0.4",
+    "yelp-fusion": "^2.0.3"
+  }
+}

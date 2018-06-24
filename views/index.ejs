@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+    
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/style.css">
+
+    <title>FCC Nightlife App</title>
+  </head>
+  
+  <body class="container-fluid">
+
+    <nav id="navigationbar" class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
+      <a class="navbar-brand">YP</a>
+      <div class="navbar-nav ml-auto">
+        <% if(!currentUser) { %>
+          <a id="loginButton" class="nav-item nav-link justify-content-right" href="/auth/twitter">Login</a>
+        <% } else {%>
+          <a class="nav-item nav-link justify-content-right" href="/auth/logout">Logout</a>
+        <% } %>
+      </div>
+    
+    
+    </nav>
+      
+    <% if(error && error.length > 0) { %>
+      <div class="alert alert-danger alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <%=error %>
+      </div>
+    <% } %>
+     
+    <% if(warning && warning.length > 0) { %>
+      <div class="alert alert-warning alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <%= warning %>
+      </div>
+    <% } %>
+     
+    <% if(success && success.length > 0) { %>
+      <div class="alert alert-success alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <%= success %>
+      </div>
+    <% } %>
+    
+    <main class="container">
+      
+      <h1>FCC Nightlife App</h1>
+      
+      <h2>Search for a bar in your area and clik on the one you will go to tonight!</h2>
+      
+      <br>
+      
+      <section id="search" class="container">
+        <form class="container">
+          <div class="form-row align-items-center">
+            <div class="col-sm-9">
+              <label class="sr-only" for="inlineFormInput">Name</label>
+              <input id="searchField" type="text" class="form-control mb-2" placeholder="Input your location here" autofocus autocomplete="off">
+            </div>
+            <div class="col-sm-3">
+              <button id="searchButton" class="btn btn-dark mb-2 col-12">Search</button>
+            </div>
+          </div>
+        </form>
+      </section>
+        
+      
+      <section id="results" class="container"></section>
+      
+      <p class="footer">Developed by Yo</p>
+  
+    </main>
+  
+    <script>
+      window.addEventListener("load", function(event) {
+        var searchFieldText = document.getElementById("searchField").value;
+        var resultsDiv = document.getElementById("results");
+        var loaderDiv = document.getElementById("loader-div");
+        const searchedLocation = "<%=searchedLocation%>";
+        var currentUser = "";
+       <% if(currentUser) { %>
+          currentUser = "<%= currentUser.id %>" 
+        <% } %>
+        
+        if(searchedLocation) {
+          retrieveLocation(searchedLocation);
+        }
+      
+        document.getElementById("searchButton").addEventListener("click", function(event){
+          var searchFieldText = document.getElementById("searchField").value;
+          if (searchFieldText) {
+            retrieveLocation(searchFieldText);
+          }
+          event.preventDefault();
+        })
+        
+        function retrieveLocation(searchingLocation) {
+          resultsDiv.innerHTML = '<div class="loader" id="loader-div"><span></span><span></span><span></span><span></span></div>'
+            fetch('/location/' + searchingLocation)
+              .then(function(response) {
+                return response.json();
+              })
+              .then(function(data) {
+                console.log(data)
+                var content = "";
+                data.forEach(function(object){
+                  console.log(object)
+                  content = content + "<article class='row'><div class='col-md-3 image-wrapper'><img src='" +  object.image_url + "' alt='Bar image' class='img-fluid img-thumbnail'></img></div><div class='col-md-9'><a href='" + object.url + "' target='_blank'><h3>" + object.name + "</h3></a><p>" + object.id + "</p><button class='btn btn-dark'>CHANGE Going</button></div></article>"
+                });
+                resultsDiv.innerHTML = content;
+                searchFieldText = "";
+                if(!currentUser) {
+                  var loginButton = document.getElementById("loginButton");
+                  loginButton.setAttribute("href", "/auth/twitter?searchedLocation=" + searchingLocation);
+                }
+              }) 
+        }
+      });  
+    </script>
+  
+  </body>
+
+</html>

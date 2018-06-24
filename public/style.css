@@ -1,0 +1,161 @@
+html {
+	background-color: #d6e5ff;
+    background-attachment: fixed;
+    height: 100%;
+	width: 100%;
+}
+
+body {
+	background: transparent;
+	margin: 0;
+	padding: 0 !important;
+	color: rgb(33, 37, 41);
+}
+
+.alert {
+	text-align: center !important;
+	position: relative !important
+}
+
+.btn:focus, .btn:active, button:focus, button:active, a:focus, a:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.navbar-brand {
+	padding-right: 7px;
+	padding-left: 7px;
+	color: rgb(33, 37, 41) ;
+	background: white;
+	border-radius: 50%
+}
+
+.nav-item {
+	color: white !important;
+}
+
+h1 {
+	font-weight: 700 !important; 
+	margin-top: 2%;
+	text-align: center;
+	font-size: 4em;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 2%
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+a, a:hover, a:focus, a:active {
+	color: rgb(33, 37, 41);
+	text-decoration: none;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btn:focus, .btn:active, button:focus, button:active, a:focus, a:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+article {
+	border: 2px solid rgb(33, 37, 41);
+	margin: 2% auto;
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+
+img {
+    min-height: 100%;
+    min-width: 100%;
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.footer {
+	margin-top: 5% !important;
+	text-align: center;
+	border-top: 2px solid black;
+	width: 80%;
+	margin: auto;
+}
+
+@media screen and (max-width: 575px) {
+	h1 {
+		font-size: 3em;
+	}
+
+	h2 {
+	    font-size: 1.5em;
+	}
+	
+	h3 {
+	    font-size: 1.25em;
+	}
+	
+}
+
+@media screen and (max-width: 768px) {
+	.image-wrapper {
+		display: none;
+	}
+}
+
+/* FOR LOADER */
+.loader{
+  display: block;
+  
+  margin: 4vh auto;
+}
+
+#loader-div{
+  text-align: center;
+}
+
+#loader-div span{
+  display: inline-block;
+  margin: 0 0.4%;
+  width: 1vw;
+  min-width: 8px;
+  height: 5vh;
+  background-color: #343a40;
+}
+
+#loader-div span:nth-child(1){
+  animation: grow 1s ease-in-out infinite;
+}
+
+#loader-div span:nth-child(2){
+  animation: grow 1s ease-in-out 0.15s infinite;
+}
+
+#loader-div span:nth-child(3){
+  animation: grow 1s ease-in-out 0.30s infinite;
+}
+
+#loader-div span:nth-child(4){
+  animation: grow 1s ease-in-out 0.45s infinite;
+}
+
+@keyframes grow{
+  0%, 100%{
+    -webkit-transform: scaleY(1);
+    -ms-transform: scaleY(1);
+    -o-transform: scaleY(1);
+    transform: scaleY(1);
+  }
+
+  50%{
+    -webkit-transform: scaleY(1.8);
+    -ms-transform: scaleY(1.8);
+    -o-transform: scaleY(1.8);
+    transform: scaleY(1.8);
+  }
+}
+
+
+/* END OF LOADER */ 
