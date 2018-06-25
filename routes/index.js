@@ -47,12 +47,11 @@ router.get("/location/:loc", function(req, res){
     .catch(e => { res.json(e); });
 });
 
-router.get("/place/:yelpID",
+router.post("/place/:yelpID",
     middlewares.isLogged,
     function(req, res, next){
         const yelpID = req.params.yelpID;
         const user = req.user._id.toString();
-        console.log(user)
         placeModel.findOne({ 'yelpID': yelpID })
         .then(function (result) {
             if (result) {
@@ -76,10 +75,10 @@ router.get("/place/:yelpID",
                 placeModel.create({ yelpID: yelpID, users_going: [user]  })
                 .then((placeCreated) => {
                     res.json({length: 1})
-                });
+                })
+                .catch(function (error) { return next(error)});
             }
         })
-        // If empty, Create in db place and include user ID. If found, 2 possibilities: 1/ If user id in array, remove him 2/ If user id not in array, add him
         .catch(function (error) { return next(error)});
     }
 );

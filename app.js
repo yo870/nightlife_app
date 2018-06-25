@@ -46,13 +46,13 @@ app.use(function(err, req, res, next) {
   console.log(err);
   var searchedLocation = "";
   req.flash("error","There was an error processing your request, please try again later");
-  res.status(500).redirect("/");
+  res.status(500).render("index", {searchedLocation : searchedLocation, error : req.flash('error')})
 });
 
 app.use(function(req, res) {
   var searchedLocation = "";
   req.flash("warning","The page you are looking for does not exist");
-  res.status(404).redirect("/");
+  res.status(404).render("index", {searchedLocation : searchedLocation, warning : req.flash('warning')})
 });
 
 app.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){

@@ -93,10 +93,10 @@
         var loaderDiv = document.getElementById("loader-div");
         const searchedLocation = "<%=searchedLocation%>";
         var currentUser = "";
-       <% if(currentUser) { %>
+        <% if(currentUser) { %>
           currentUser = "<%= currentUser.id %>" 
         <% } %>
-        
+ 
         if(searchedLocation) {
           retrieveLocation(searchedLocation);
         }
@@ -111,25 +111,47 @@
         
         function retrieveLocation(searchingLocation) {
           resultsDiv.innerHTML = '<div class="loader" id="loader-div"><span></span><span></span><span></span><span></span></div>'
-            fetch('/location/' + searchingLocation)
-              .then(function(response) {
-                return response.json();
-              })
-              .then(function(data) {
-                console.log(data)
-                var content = "";
-                data.forEach(function(object){
-                  console.log(object)
-                  content = content + "<article class='row'><div class='col-md-3 image-wrapper'><img src='" +  object.image_url + "' alt='Bar image' class='img-fluid img-thumbnail'></img></div><div class='col-md-9'><a href='" + object.url + "' target='_blank'><h3>" + object.name + "</h3></a><p>" + object.id + "</p><button class='btn btn-dark'>CHANGE Going</button></div></article>"
+          fetch('/location/' + searchingLocation)
+            .then(function(response) {
+              return response.json();
+            })
+            .then(function(data) {
+              resultsDiv.innerHTML = "";
+              data.forEach(function(object){
+                resultsDiv.insertAdjacentHTML('beforeend', "<article class='row'><div class='col-md-3 image-wrapper'><img src='" +  object.image_url + "' alt='Bar image' class='img-fluid img-thumbnail'></img></div><div class='col-md-9'><a href='" + object.url + "' target='_blank'><h3>" + object.name + "</h3></a><p>" + object.address + "</p><button id='" + object.id + "' class='btn btn-dark'>" + object.count + " Going</button></div></article>");
+                var countButton = document.getElementById(object.id);
+                countButton.addEventListener("click", function(event){
+                  <% if(currentUser) { %>  
+                    updateCount(this);
+                  <% } else { %>
+                    alert("Please login first")
+                  <% } %>
                 });
-                resultsDiv.innerHTML = content;
-                searchFieldText = "";
-                if(!currentUser) {
-                  var loginButton = document.getElementById("loginButton");
-                  loginButton.setAttribute("href", "/auth/twitter?searchedLocation=" + searchingLocation);
-                }
-              }) 
+              });
+              searchFieldText = "";
+              if(!currentUser) {
+                var loginButton = document.getElementById("loginButton");
+                loginButton.setAttribute("href", "/auth/twitter?searchedLocation=" + searchingLocation);
+              }
+            })
+            .catch(function(error) {
+              resultsDiv.innerHTML = "<p class='error'>An error occured. Please check your address is valid."
+            })
         }
+        <% if(currentUser) { %>
+          function updateCount(button) {
+            fetch('/place/' + button.id,{ credentials: 'same-origin', method: "POST" })
+            .then(function(response) {
+              return response.json();
+            })
+            .then(function(data) {
+              button.textContent = data.length + " Going";
+            })
+            .catch(function(data) {
+              alert("An error occured. Please try again later");
+            })
+          }
+        <% } %>
       });  
     </script>
   

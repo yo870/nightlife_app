@@ -76,6 +76,11 @@ img {
     max-height: 200px;
 }
 
+.error{
+	text-align: center;
+	padding-top: 2%	
+}
+
 .footer {
 	margin-top: 5% !important;
 	text-align: center;
